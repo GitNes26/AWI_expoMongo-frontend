@@ -1,0 +1,51 @@
+<div class="row">
+    <h1 class="display-1 text-center">BLOG ----- {{user.username}}({{user.id}})</h1>
+    <hr class="my-2">
+    <div class="row position-sticky translate">
+        <button class="btn btn-outline-secondary" (click)="formAddProduct = !formAddProduct">{{formAddProduct ? 'Ocultar' : 'Agregar producto'}}</button>
+        <!-- FORMULARIO PARA AGREGAR UN PRODUCTO -->
+        <div class="card" *ngIf="formAddProduct">
+            <h5 class="card-header">Registrar Producto</h5>
+            <form class="card-body" [formGroup]="formG" (ngSubmit)="createOrUpdate()" novalidate>
+                <div class="form-floating mb-3">
+                    <input class='form-control mt-3' type="text" formControlName="title" [(ngModel)]="selected.title" id="floatingProduct" placeholder="Nombre del Producto"
+                    [class.is-invalid]="ValidateTextField('title')">
+                    <label for="floatingProduct">Nombre del producto</label>
+                    <div *ngIf="ValidateErrorTextField('title')">
+                        <small class="badge alert-danger" *ngIf="formG.get('title').hasError('required')">
+                            Este es un campo requerido.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-floating mb-3">
+                    <input class='form-control mt-3' type="text" formControlName="description" [(ngModel)]="selected.description" id="floatingDescription" placeholder="Descripcion del producto"
+                    [class.is-invalid]="ValidateTextField('description')">
+                    <label for="floatingDescription">Descripcion del producto</label>
+                    <div *ngIf="ValidateErrorTextField('description')">
+                        <small class="badge alert-danger" *ngIf="formG.get('description').hasError('required')">
+                            Este es un campo requerido.
+                        </small>
+                    </div>
+                </div>
+                <button class="btn btn-success mt-3">
+                    Agregar <i class="fas fa-plus-circle"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+    <hr class="my-2">
+    <div class="row">
+        <div class="col-sm-6 mt-3" *ngFor="let product of productsArray">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{product.title}}</h5>
+                    <p class="card-text">{{product.description}}</p>
+                </div>
+                <div class="card-footer d-flex justify-content-between align-items-center">
+                    <a routerLink='/product/{{product.id}}' routerLinkActive="router-link-active"  class="btn btn-primary"> + Comentarios</a>
+                    <small class="text-muted">{{product.created_at}}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,148 @@
+<div class="row">
+    <h1 class="display-1 text-center">COMENTARIOS</h1>
+    <hr>
+    <button class="btn btn-outline-secondary" (click)="formAddComment = !formAddComment">{{formAddComment ? 'Ocultar' : 'Agregar Comentario'}}</button>
+    <!-- FORMULARIO PARA AGREGAR UN COMENTARIO -->
+    <div class="card" *ngIf="formAddComment">
+        <h5 class="card-header">Registrar Comentario</h5>
+        <form class="card-body" [formGroup]="formG" (ngSubmit)="createOrUpdate()" novalidate>
+            <div class="form-floating mb-3">
+                <textarea class="form-control" rows="2" formControlName="comment" [(ngModel)]="selected.comment" id="floatingComment" placeholder="Comentario..."
+                [class.is-invalid]="ValidateTextField('comment')"></textarea>
+                <label for="floatingComment">Comentario...</label>
+                <!-- <small class="text-muted">{{this.formG.get('comment').value.length}} / 100</small> -->
+                <div *ngIf="ValidateErrorTextField('comment')">
+                    <small class="badge alert-danger" *ngIf="formG.get('comment').hasError('required')">
+                        Este es un campo requerido.
+                    </small>
+                    <small class="badge alert-danger" *ngIf="formG.get('comment').hasError('maxlength')">
+                        Maximo 100 caracteres.
+                    </small>
+                </div>
+            </div>
+            <button class="btn btn-success mt-3">
+                {{selected.id === 0 ? 'Agregar ' : 'Guardar '}} <i class="fas fa-plus-circle"></i>
+            </button>
+        </form>
+    </div>
+
+    <hr>
+
+    <!-- TABLA DE COMENTARIOS -->
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-dark">
+                <tr class="text-center">
+                    <th scope="col">ID</th>
+                    <th scope="col">Comentario</th>
+                    <th scope="col">Usuario</th>
+                    <th scope="col">Producto</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col" colspan="2" class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let comment of commentsArray"
+                class="list-group-item-action"
+                [class.bg-secondary]="comment == selected"
+                [class.text-light]="comment == selected">
+                    <th scope="row">{{comment.id}}</th>
+                    <td>{{comment.comment}}</td>
+                    <td>{{comment.user_id}}</td>
+                    <td>{{comment.product_id}}</td>
+                    <td>{{comment.created_at}}</td>
+                    <td><button (click)="update(comment)" class="btn btn-primary">Editar <i class="fas fa-pen fa-sm"></i></button></td>
+                    <td><button (click)="delete(comment)" class="btn btn-danger">Eliminar <i class="fa fa-trash fa-sm"></i></button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+    <!-- <div class="accordion" id="accordionProducts">
+        <div class="accordion-item" *ngFor="let product of productsArray">
+            <h2 class="accordion-header" id="heading{{product.id}}">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseContent{{product.id}}" aria-expanded="true" aria-controls="collapse">
+                <span class="badge bg-primary rounded-pill mx-1">{{product.id}}</span>
+                {{product.product}} - ${{product.price}}
+                </button>
+            </h2>
+            <div id="collapseContent{{product.id}}" class="accordion-collapse collapse" aria-labelledby="heading{{product.id}}" data-bs-parent="#accordionProducts">
+                <div class="accordion-body">
+                    <div class="card-group" *ngFor="let comment of commentsArray">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title d-flex justify-content-between align-items-center">
+                                    <div>{{comment.user}}:</div>
+                                    <div class="btn-group btn-group-sm" role="button">
+                                        <button (click)="update(comment)" class="btn btn-outline-primary btn-sm"><i class="fas fa-pen fa-sm"></i></button>
+                                        <button (click)="delete(comment)" class="btn btn-outline-danger btn-sm"><i class="fa fa-trash fa-sm"></i></button>
+                                    </div>
+
+                                </h5>
+                                <p class="card-text">{{comment.comment}}</p>
+                            </div>
+                            <div class="card-footer text-end">
+                                <small class="text-muted">{{comment.created_at}}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!- FORMULARIO PARA AGREGAR UN PRODUCTO --
+                <form class="card-body" [formGroup]="formG" (ngSubmit)="createOrUpdate()" novalidate>
+                    <div class="form-floating mb-1">
+                        <input class='form-control mt-3' type="text" formControlName="product" [(ngModel)]="selected.product" id="floatingProduct" placeholder="Nombre del Producto"
+                        [class.is-invalid]="ValidateTextField('product')">
+                        <label for="floatingProduct">Nombre del producto</label>
+                        <div *ngIf="ValidateErrorTextField('product')">
+                            <small class="badge alert-danger" *ngIf="formG.get('product').hasError('required')">
+                                Este es un campo requerido.
+                            </small>
+                        </div>
+                    </div>
+                    <button class="btn btn-success">
+                        {{selected.id === 0 ? 'Agregar ' : 'Guardar '}} <i class="fas fa-plus-circle"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapsejOne" aria-expanded="true" aria-controls="collapseOne">
+              Accordion Item #1
+            </button>
+          </h2>
+          <div id="collapsejOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <strong>This is the first item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingTwo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              Accordion Item #2
+            </button>
+          </h2>
+          <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingThree">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+              Accordion Item #3
+            </button>
+          </h2>
+          <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+            </div>
+          </div>
+        </div>
+      </div> -->

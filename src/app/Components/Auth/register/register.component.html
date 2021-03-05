@@ -1,0 +1,79 @@
+<div class="col-md-8 col-lg-5 col-11 container card p-5 mt-5">
+    <h1 class="display-1 text-center">REGISTRO</h1>
+    <form class="px-5" [formGroup]="formG" (ngSubmit)="register($event)" novalidate>
+        <!-- <div class="form-floating mb-3">
+            <input class='form-control mt-3' type="text" formControlName="name" id="floatingName" placeholder="Nombre"
+            [class.is-invalid]="ValidateTextField('name')">
+            <label for="floatingName">Nombre</label>
+            <div *ngIf="formG.get('name').errors && formG.get('name').touched">
+                <small class="badge alert-danger" *ngIf="formG.get('name').hasError('required')">
+                    Este es un campo requerido.
+                </small>
+            </div>
+        </div>
+        <div class="form-floating mb-3">
+            <input class='form-control mt-3' type="text" formControlName="lastName" id="floatingLastName" placeholder="Apellido"
+            [class.is-invalid]="ValidateTextField('lastName')">
+            <label for="floatingLastName">Apellido</label>
+            <div *ngIf="formG.get('lastName').errors && formG.get('lastName').touched">
+                <small class="badge alert-danger" *ngIf="formG.get('lastName').hasError('required')">
+                    Este es un campo requerido.
+                </small>
+            </div>
+        </div> -->
+        <div class="form-floating mb-3">
+            <input class='form-control mt-3' type="text" formControlName="username" id="floatingUsername" placeholder="Usuario"
+            [class.is-invalid]="ValidateTextField('username')">
+            <label for="floatingUsername">Usuario</label>
+            <div *ngIf="ValidateErrorTextField('username')">
+                <small class="badge alert-danger" *ngIf="formG.get('username').hasError('required')">
+                    Este es un campo requerido.
+                </small>
+            </div>
+        </div>
+        <div class="form-floating mb-3">
+            <input class='form-control mt-3 lead' type="password" formControlName="pwd" id="floatingPwd" placeholder="Contraseña"
+            [class.is-invalid]="ValidateTextField('pwd')">
+            <label for="floatingPwd">Contraseña</label>
+            <div *ngIf="ValidateErrorTextField('pwd')">
+                <small class="badge alert-danger" *ngIf="formG.get('pwd').hasError('required')">
+                    Este es un campo requerido.
+                </small>
+                <small class="badge alert-danger" *ngIf="formG.get('pwd').hasError('minlength')">
+                    Asegurate de tener minimo 3 caracteres.
+                </small>
+            </div>
+        </div>
+        <div class="form-floating mb-3">
+            <input class='form-control mt-3' type="password" formControlName="pwd2" id="floatingPwd2" placeholder="Confirmar Contraseña"
+            [class.is-invalid]="password2Validate">
+            <label for="floatingPwd2">Confirmar Contraseña</label>
+            <div *ngIf="ValidateErrorTextField('pwd2')">
+                <small class="badge alert-danger" *ngIf="formG.get('pwd2').hasError('required')">
+                    Este es un campo requerido.
+                </small>
+                <small class="badge alert-danger" *ngIf="password2Validate">
+                    Las contraseñas no coinciden.
+                </small>
+            </div>
+        </div>
+        <div class="form-floating mb-3">
+            <input class='form-control mt-3' type="email" formControlName="email" id="floatingEmail" placeholder="Correo"
+            [class.is-invalid]="ValidateTextField('email')">
+            <label for="floatingEmail">Correo</label>
+            <div *ngIf="ValidateErrorTextField('email')">
+                <small class="badge alert-danger" *ngIf="formG.get('email').hasError('required')">
+                    Este es un campo requerido.
+                </small>
+                <small class="badge alert-danger" *ngIf="formG.get('email').hasError('email')">
+                    Asegurate de escribir una direccion de correo valida.
+                </small>
+            </div>
+        </div>
+        <button class='btn btn-outline-success form-control btn-lg mt-3' type="submit"
+        [disabled]="password2Validate">
+            Registrarme
+        </button>
+    </form>
+    <a routerLink='/login' routerLinkActive='active' class="link-secondary lead text-center mt-1 badge">Ya tengo una cuenta.</a>
+</div>  

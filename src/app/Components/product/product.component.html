@@ -1,0 +1,28 @@
+<div class="row">
+    <h1 class="display-1 text-center">{{product.title}}</h1>
+    <hr>
+    <div class="list-group">
+        <button type="button" class="list-group-item list-group-item-action" *ngFor="let comment of commentsArray">
+            {{comment.comment}}
+        </button>
+      </div>
+
+    <!-- FORMULARIO PARA AGREGAR UN COMENTARIO -->
+    <div class="card-footer">
+        <form class="form-group" [formGroup]="formG" (ngSubmit)="createOrUpdate()" novalidate>
+            <div class="form-floating mb-1">
+                <input class='form-control mt-3' type="text" formControlName="comment" id="floatingComment" placeholder="Comentario..."
+                [class.is-invalid]="ValidateTextField('comment')">
+                <label for="floatingComment">Comentario...</label>
+                <div *ngIf="ValidateErrorTextField('comment')">
+                    <small class="badge alert-danger" *ngIf="formG.get('comment').hasError('required')">
+                        Este es un campo requerido.
+                    </small>
+                </div>
+            </div>
+            <button class="btn btn-success">
+               Comentar <i class="fas fa-plus-circle"></i>
+            </button>
+        </form>
+    </div>
+</div>

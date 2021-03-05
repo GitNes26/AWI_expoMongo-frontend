@@ -1,0 +1,35 @@
+<div class="row mt-5">
+    <div class="col-md-8 col-lg-5 col-11 container card p-5">
+        <h1 class="display-1 text-center">LOGIN</h1>
+        <form class="px-5" [formGroup]="formG" (ngSubmit)="login()" novalidate>
+            <div class="form-floating mb-3">
+                <input class='form-control mt-3' type="text" formControlName="email" id="floatingEmail" placeholder="Correo"
+                [class.is-invalid]="ValidateTextField('email')">
+                <label for="floatingEmail">Correo</label>
+                <div *ngIf="ValidateErrorTextField('email')">
+                    <small class="badge alert-danger" *ngIf="formG.get('email').hasError('required')">
+                        Este es un campo requerido.
+                    </small>
+                    <small class="badge alert-danger" *ngIf="formG.get('email').hasError('email')">
+                        Asegurate de escribir una direccion de correo valida.
+                    </small>
+                </div>
+            </div>
+            <div class="form-floating mb-3">
+                <input class='form-control mt-3' type="password" formControlName="pwd" id="floatingPwd" placeholder="Contraseña"
+                [class.is-invalid]="ValidateTextField('pwd')">
+                <label for="floatingPwd">Contraseña</label>
+                <div *ngIf="ValidateErrorTextField('pwd')">
+                    <small class="badge alert-danger" *ngIf="formG.get('pwd').hasError('required')">
+                        Este es un campo requerido.
+                    </small>
+                    <small class="badge alert-danger" *ngIf="formG.get('pwd').hasError('minlength')">
+                        Asegurate de tener minimo 3 caracteres.
+                    </small>
+                </div>
+            </div>
+            <button class='btn btn-outline-primary form-control btn-lg mt-3' type="submit">Ingresar</button>
+        </form>
+        <a routerLink='/register' routerLinkActive='active' class="link-secondary lead text-center mt-1 badge">Registrarme</a>
+    </div>
+</div>

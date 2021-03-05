@@ -1,0 +1,67 @@
+<div class="row">
+    <h1 class="display-1 text-center">PRODUCTOS</h1>
+    <hr>
+    <div class="col-4">
+        <div class="row position-sticky translate">
+            <button class="btn btn-outline-secondary" (click)="formAddProduct = !formAddProduct">{{formAddProduct ? 'Ocultar' : 'Agregar producto'}}</button>
+            <!-- FORMULARIO PARA AGREGAR UN PRODUCTO -->
+            <div class="card" *ngIf="formAddProduct">
+                <h5 class="card-header">Registrar Producto</h5>
+                <form class="card-body" [formGroup]="formG" (ngSubmit)="createOrUpdate()" novalidate>
+                    <div class="form-floating mb-3">
+                        <input class='form-control mt-3' type="text" formControlName="product" [(ngModel)]="selected.title" id="floatingProduct" placeholder="Nombre del Producto"
+                        [class.is-invalid]="ValidateTextField('product')">
+                        <label for="floatingProduct">Nombre del producto</label>
+                        <div *ngIf="ValidateErrorTextField('product')">
+                            <small class="badge alert-danger" *ngIf="formG.get('product').hasError('required')">
+                                Este es un campo requerido.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class='form-control mt-3' type="text" formControlName="description" [(ngModel)]="selected.description" id="floatingDescription" placeholder="Descripcion del producto"
+                        [class.is-invalid]="ValidateTextField('description')">
+                        <label for="floatingDescription">Descripcion del producto</label>
+                        <div *ngIf="ValidateErrorTextField('description')">
+                            <small class="badge alert-danger" *ngIf="formG.get('description').hasError('required')">
+                                Este es un campo requerido.
+                            </small>
+                        </div>
+                    </div>
+                    <button class="btn btn-success mt-3">
+                        {{selected.id === 0 ? 'Agregar ' : 'Guardar '}} <i class="fas fa-plus-circle"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-8">
+        <!-- TABLA DE PRODUCTOS -->
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-dark">
+                    <tr class="">
+                        <th scope="col">ID</th>
+                        <th scope="col">Producto</th>
+                        <th scope="col">Descripcion</th>
+                        <!-- <th scope="col">Creado por</th> -->
+                        <th scope="col" colspan="2" class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let product of productsArray"
+                    class="list-group-item-action"
+                    [class.bg-secondary]="product == selected"
+                    [class.text-light]="product == selected">
+                        <th scope="row">{{product.id}}</th>
+                        <td>{{product.title}}</td>
+                        <td>{{product.description}}</td>
+                        <!-- <td>{{product.user_id}}</td> -->
+                        <td><button (click)="update(product)" class="btn btn-primary">Editar <i class="fas fa-pen fa-sm"></i></button></td>
+                        <td><button (click)="delete(product)" class="btn btn-danger">Eliminar <i class="fa fa-trash fa-sm"></i></button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
